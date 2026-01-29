@@ -11,6 +11,8 @@ import Splash from './components/Splash';
 import DoctorAuth from './pages/DoctorAuth';
 import DoctorDash from './pages/DoctorDash';
 import { useState, useEffect } from "react";
+import toast,{ Toaster } from 'react-hot-toast';
+import axiosInstance from './api/axios';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,9 +27,20 @@ export default function App() {
   if (isLoading) {
     return <Splash />;
   }
+  const handleCheack = async () => {
+    const data = await axiosInstance.get('/health');
+    if(data.status == "ok") {
+      toast.success("connected to backend successfully");
+    } else {
+      toast.error("backend not connected"); 
+    }
+  }
+
+  // 
 
   return (
-    <div>
+    <div onClick={handleCheack}>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/auth" element={<Auth />} />

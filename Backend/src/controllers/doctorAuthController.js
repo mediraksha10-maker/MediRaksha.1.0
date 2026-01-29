@@ -10,11 +10,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 // sign up
 export async function createDoctor(req, res) {
     try {
-        const { email, password } = req.body;
-        const userExists = await doctor.findOne({ email });
+        const { doctorId, password } = req.body;
+        const userExists = await doctor.findOne({ doctorId });
         if (userExists) return res.status(400).json({ msg: 'User already exists' });
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new doctor({ email, password: hashedPassword });
+        const newUser = new doctor({ doctorId, password: hashedPassword });
         await newUser.save();
 
         const token = jwt.sign({ id: newUser._id }, JWT_SECRET, {
@@ -40,8 +40,8 @@ export async function createDoctor(req, res) {
 // sign in
 export async function getDoctor(req, res) {
     try {
-        const { email, password } = req.body;
-        const user = await doctor.findOne({ email });
+        const { doctorId, password } = req.body;
+        const user = await doctor.findOne({ doctorId });
         if (!user) return res.status(404).json({ message: "user not found" });
         const passCorrect = await bcrypt.compare(password, user.password);
         if (!passCorrect) return res.status(400).json({ msg: 'password not correct' });

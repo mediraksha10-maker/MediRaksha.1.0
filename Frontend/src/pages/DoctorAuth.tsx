@@ -5,14 +5,14 @@ import { ArrowLeft } from "lucide-react"; //
 
 const DoctorAuth = () => {
   const [su, setsu] = useState(true);
-  const [email, setEmail] = useState('');
+  const [doctorId, setDoctorId] = useState('');
   const [password, setPassword] = useState('');
 
   // Handle Signup
   const handleSignup = async () => {
     try {
       await axiosInstance.post("/auth/doctor", {
-        email,
+        doctorId,
         password,
       });
 
@@ -28,7 +28,7 @@ const DoctorAuth = () => {
   const handleLogin = async () => {
     try {
       await axiosInstance.post("/auth/doctor/login", {
-        email,
+        doctorId,
         password,
       });
 
@@ -69,8 +69,8 @@ const DoctorAuth = () => {
               </div>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={doctorId}
+                onChange={(e) => setDoctorId(e.target.value)}
                 placeholder="DoctorID"
                 className="input input-bordered w-full"
               />
@@ -121,8 +121,8 @@ const DoctorAuth = () => {
               </div>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={doctorId}
+                onChange={(e) => setDoctorId(e.target.value)}
                 placeholder="DoctorID"
                 className="input input-bordered w-full"
               />
