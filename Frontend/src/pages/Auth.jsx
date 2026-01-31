@@ -3,6 +3,8 @@ import axiosInstance from "../api/axios";
 import { Link } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const Auth = () => {
   const [su, setsu] = useState(true);
@@ -24,7 +26,7 @@ const Auth = () => {
     } catch (err) {
       toast.error(
         err.response?.data?.message ||
-          "User already exists. Try logging in."
+        "User already exists. Try logging in."
       );
     }
   };
@@ -50,7 +52,7 @@ const Auth = () => {
     } catch (err) {
       toast.error(
         err.response?.data?.message ||
-          "Wrong username or password"
+        "Wrong username or password"
       );
     }
   };
@@ -112,6 +114,33 @@ const Auth = () => {
                 Sign Up
               </button>
             </form>
+            <div className="divider">OR</div>
+
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                try {
+                  const res = await axiosInstance.post("/auth/google", {
+                    token: credentialResponse.credential,
+                  });
+
+                  toast.success("Logged in with Google");
+
+                  const data = res.data;
+
+                  if (!data.gender || !data.age) {
+                    window.location.href = "/details";
+                  } else {
+                    window.location.href = "/";
+                  }
+                } catch (err) {
+                  toast.error("Google login failed");
+                }
+              }}
+              onError={() => {
+                toast.error("Google login failed");
+              }}
+            />
+
 
             <p className="justify-self-start cursor-pointer mt-2">
               <span onClick={() => setsu(false)}>
@@ -173,6 +202,33 @@ const Auth = () => {
               Log In
             </button>
           </form>
+          <div className="divider">OR</div>
+
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              try {
+                const res = await axiosInstance.post("/auth/google", {
+                  token: credentialResponse.credential,
+                });
+
+                toast.success("Logged in with Google");
+
+                const data = res.data;
+
+                if (!data.gender || !data.age) {
+                  window.location.href = "/details";
+                } else {
+                  window.location.href = "/";
+                }
+              } catch (err) {
+                toast.error("Google login failed");
+              }
+            }}
+            onError={() => {
+              toast.error("Google login failed");
+            }}
+          />
+
 
           <p
             className="justify-self-start cursor-pointer mt-2"

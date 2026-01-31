@@ -96,7 +96,7 @@ const DoctorAuth = () => {
                 />
               </label>
 
-              <button type="submit" className="btn btn-primary w-full">
+              <button type="submit" className="btn mt-4 btn-primary w-full">
                 Send for verification
               </button>
             </form>
@@ -167,7 +167,7 @@ const DoctorAuth = () => {
               />
             </label>
 
-            <button type="submit" className="btn btn-accent w-full">
+            <button type="submit" className="btn mt-4 btn-accent w-full">
               Log In
             </button>
           </form>

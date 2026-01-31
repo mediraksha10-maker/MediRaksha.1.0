@@ -1,29 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L, { Marker as LeafletMarker } from "leaflet";
+import L from "leaflet";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Link } from "react-router";
 
-/* ---------------- TYPES ---------------- */
-
-type Position = [number, number];
-
-interface Hospital {
-  id: number | string;
-  lat: number;
-  lon: number;
-  name: string;
-  distance: number;
-}
-
-/* ---------------- ICONS ---------------- */
 
 const userIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -48,12 +29,7 @@ const hospitalIconHighlight = new L.Icon({
 
 /* ---------------- DISTANCE FUNCTION ---------------- */
 
-const getDistanceInKm = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number => {
+const getDistanceInKm = (lat1, lon1, lat2, lon2) => {
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -69,11 +45,7 @@ const getDistanceInKm = (
 
 /* ---------------- MAP FLY HELPER ---------------- */
 
-interface FlyToHospitalProps {
-  hospital: Hospital | null;
-}
-
-function FlyToHospital({ hospital }: FlyToHospitalProps) {
+function FlyToHospital({ hospital }) {
   const map = useMap();
 
   useEffect(() => {
@@ -87,16 +59,12 @@ function FlyToHospital({ hospital }: FlyToHospitalProps) {
 
 /* ---------------- COMPONENT ---------------- */
 
-export default function MapComponent(): JSX.Element {
-  const [position, setPosition] = useState<Position | null>(null);
-  const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [hoveredHospital, setHoveredHospital] =
-    useState<Hospital | null>(null);
-  const [selectedRange, setSelectedRange] = useState<number>(5);
-
-  const markerRefs = useRef<Record<string | number, LeafletMarker | null>>(
-    {}
-  );
+export default function MapComponent() {
+  const [position, setPosition] = useState(null);
+  const [hospitals, setHospitals] = useState([]);
+  const [hoveredHospital, setHoveredHospital] = useState(null);
+  const [selectedRange, setSelectedRange] = useState(5);
+  const markerRefs = useRef({});
 
   /* -------- GET USER LOCATION -------- */
 
@@ -113,21 +81,19 @@ export default function MapComponent(): JSX.Element {
 
   /* -------- FETCH HOSPITALS -------- */
 
-  const fetchHospitals = async (): Promise<void> => {
+  const fetchHospitals = async () => {
     if (!position) return;
-
     const [lat, lon] = position;
-    const viewbox = `${lon - 0.1},${lat + 0.1},${lon + 0.1},${lat - 0.1}`;
 
+    const viewbox = `${lon - 0.1},${lat + 0.1},${lon + 0.1},${lat - 0.1}`;
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=hospital&limit=40&viewbox=${viewbox}&bounded=1`;
 
     const res = await fetch(url, {
       headers: { "User-Agent": "MediRaksha/1.0" },
     });
+    const data = await res.json();
 
-    const data: any[] = await res.json();
-
-    const formatted: Hospital[] = data
+    const formatted = data
       .map((place, index) => {
         const distance = getDistanceInKm(
           lat,
@@ -157,7 +123,7 @@ export default function MapComponent(): JSX.Element {
 
   /* -------- OPEN GOOGLE MAPS DIRECTIONS -------- */
 
-  const openDirections = (hospital: Hospital): void => {
+  const openDirections = (hospital) => {
     if (!position) return;
 
     const [userLat, userLon] = position;
@@ -180,6 +146,7 @@ export default function MapComponent(): JSX.Element {
         </h1>
 
         <div className="justify-self-center mb-5">
+          {/* RANGE BUTTONS */}
           <div className="inline gap-3 mb-4">
             {[2, 5, 10].map((km) => (
               <button
@@ -196,7 +163,7 @@ export default function MapComponent(): JSX.Element {
             ))}
           </div>
 
-          <div className="inline text-center mb-10 ml-15">
+          <div className=" inline text-center mb-10 ml-15">
             <button
               onClick={fetchHospitals}
               disabled={!position}
@@ -228,8 +195,8 @@ export default function MapComponent(): JSX.Element {
                 <h3 className="text-sm font-medium">
                   {hospital.name.split(",")[0]}
                 </h3>
-                <p className="text-xs text-gray-500 flex items-center gap-1">
-                  <MapPin size={12} /> {hospital.distance.toFixed(2)} km away
+                <p className="text-xs text-gray-500">
+                  <MapPin /> {hospital.distance.toFixed(2)} km away
                 </p>
               </div>
             ))}
@@ -258,9 +225,9 @@ export default function MapComponent(): JSX.Element {
                         ? hospitalIconHighlight
                         : hospitalIcon
                     }
-                    ref={(ref) => {
-                      markerRefs.current[hospital.id] = ref;
-                    }}
+                    ref={(ref) =>
+                      ref && (markerRefs.current[hospital.id] = ref)
+                    }
                   >
                     <Popup>
                       <div className="text-sm">

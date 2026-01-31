@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Calendar, Clock, Hospital } from "lucide-react";
 
-
 // Mock data (frontend-only)
 const initialDoctors = [
   {
@@ -23,7 +22,7 @@ const initialDoctors = [
 export default function DoctorAvailability() {
   const [doctors, setDoctors] = useState(initialDoctors);
   const [newSlot, setNewSlot] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const addAvailability = () => {
     if (!newSlot || selectedDoctor === null) return;
@@ -42,6 +41,7 @@ export default function DoctorAvailability() {
 
   return (
     <div className="flex flex-col min-h-screen">
+
       <main className="grow max-w-7xl mx-auto px-4 py-8 space-y-10">
         <h1 className="text-3xl font-bold text-base-content">
           Doctor Availability
@@ -55,9 +55,11 @@ export default function DoctorAvailability() {
               <div key={doc.id} className="card bg-base-100 shadow-lg">
                 <div className="card-body">
                   <h3 className="card-title">{doc.name}</h3>
+
                   <p className="flex items-center gap-2 text-sm">
                     <Hospital size={16} /> {doc.hospital}
                   </p>
+
                   <p className="text-sm text-base-content/70">
                     {doc.specialization}
                   </p>
@@ -109,12 +111,12 @@ export default function DoctorAvailability() {
             />
 
             <button onClick={addAvailability} className="btn btn-primary">
-              <Calendar size={18} /> Add Slot
+              <Calendar size={18} />
+              Add Slot
             </button>
           </div>
         </section>
       </main>
-
     </div>
   );
 }

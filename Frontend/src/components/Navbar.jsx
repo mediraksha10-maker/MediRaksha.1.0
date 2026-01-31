@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { User } from 'lucide-react';
+import logo from "../assets/logo.png"; // adjust path as needed
 
 
 export default function Navbar() {
@@ -41,6 +42,9 @@ export default function Navbar() {
                   <li>
                     <Link to="/upload">Upload report</Link>
                   </li>
+                  <li>
+                    <Link to="/doctoravailable">Doctor Availability</Link>
+                  </li>
                 </ul>
               </details>
             </li>
@@ -65,6 +69,9 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link to="/upload">Upload report</Link>
+                </li>
+                <li>
+                  <Link to="/doctoravailable">Doctor Availability</Link>
                 </li>
               </ul>
             </details>

@@ -1,19 +1,16 @@
-
 import { useState } from "react";
-import { BedDouble, HeartPulse, Stethoscope, Hospital,ArrowLeft,LocateFixed , Flame } from "lucide-react";
+import {
+  BedDouble,
+  HeartPulse,
+  Stethoscope,
+  Hospital,
+  ArrowLeft,
+  LocateFixed,
+  Flame,
+} from "lucide-react";
 import { Link } from "react-router";
 
-interface HospitalResource {
-  id: number;
-  hospitalName: string;
-  location: string;
-  bedsAvailable: number;
-  icuAvailable: number;
-  ventilatorsAvailable: number;
-  oxygenAvailable: boolean;
-}
-
-const initialData: HospitalResource[] = [
+const initialData = [
   {
     id: 1,
     hospitalName: "City Care Hospital",
@@ -44,12 +41,10 @@ const initialData: HospitalResource[] = [
 ];
 
 export default function BedAvailability() {
-  const [hospitals] = useState<HospitalResource[]>(initialData);
+  const [hospitals] = useState(initialData);
 
   return (
     <div className="flex flex-col min-h-screen">
-      
-
       <main className="grow max-w-7xl mx-auto px-4 py-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold flex items-center gap-2">
@@ -81,7 +76,13 @@ export default function BedAvailability() {
                   <div className="flex items-center gap-2">
                     <BedDouble className="text-primary" />
                     Beds Available:
-                    <span className={hospital.bedsAvailable > 0 ? "text-success" : "text-error"}>
+                    <span
+                      className={
+                        hospital.bedsAvailable > 0
+                          ? "text-success"
+                          : "text-error"
+                      }
+                    >
                       {hospital.bedsAvailable}
                     </span>
                   </div>
@@ -89,7 +90,13 @@ export default function BedAvailability() {
                   <div className="flex items-center gap-2">
                     <HeartPulse className="text-secondary" />
                     ICU Beds:
-                    <span className={hospital.icuAvailable > 0 ? "text-success" : "text-error"}>
+                    <span
+                      className={
+                        hospital.icuAvailable > 0
+                          ? "text-success"
+                          : "text-error"
+                      }
+                    >
                       {hospital.icuAvailable}
                     </span>
                   </div>
@@ -97,29 +104,43 @@ export default function BedAvailability() {
                   <div className="flex items-center gap-2">
                     <Stethoscope className="text-accent" />
                     Ventilators:
-                    <span className={hospital.ventilatorsAvailable > 0 ? "text-success" : "text-error"}>
+                    <span
+                      className={
+                        hospital.ventilatorsAvailable > 0
+                          ? "text-success"
+                          : "text-error"
+                      }
+                    >
                       {hospital.ventilatorsAvailable}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <Flame /> Oxygen Supply:
-                    <span className={hospital.oxygenAvailable ? "text-success" : "text-error"}>
-                      {hospital.oxygenAvailable ? "Available" : "Not Available"}
+                    <span
+                      className={
+                        hospital.oxygenAvailable
+                          ? "text-success"
+                          : "text-error"
+                      }
+                    >
+                      {hospital.oxygenAvailable
+                        ? "Available"
+                        : "Not Available"}
                     </span>
                   </div>
                 </div>
 
                 <div className="card-actions justify-end mt-4">
-                  <button className="btn btn-sm btn-primary">Request Admission</button>
+                  <button className="btn btn-sm btn-primary">
+                    Request Admission
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </main>
-
     </div>
   );
 }
-

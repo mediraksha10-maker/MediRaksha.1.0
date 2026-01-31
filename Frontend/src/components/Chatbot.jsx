@@ -3,15 +3,10 @@ import axiosInstance from "../api/axios";
 import { Send, Bot, User, AlertTriangle, ArrowLeft } from "lucide-react";
 import { Link } from "react-router";
 
-type Message = {
-  role: "user" | "ai";
-  text: string;
-};
-
 export default function AiHealthChatbot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       role: "ai",
       text: "Hi I’m your health assistant. Tell me your symptoms and I’ll guide you on what to do next.",
@@ -21,7 +16,7 @@ export default function AiHealthChatbot() {
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
-    const userMessage: Message = { role: "user", text: input };
+    const userMessage = { role: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
@@ -31,7 +26,7 @@ export default function AiHealthChatbot() {
         message: userMessage.text,
       });
 
-      const aiMessage: Message = {
+      const aiMessage = {
         role: "ai",
         text: res.data.reply,
       };
@@ -46,13 +41,12 @@ export default function AiHealthChatbot() {
         },
       ]);
     } finally {
-      setLoading(false);  
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-base-200">
-
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-6">
         {/* Header */}
         <div className="mb-4">
@@ -126,7 +120,7 @@ export default function AiHealthChatbot() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") sendMessage();
-            }}  
+            }}
           />
           <button
             className="btn btn-primary"
@@ -137,7 +131,6 @@ export default function AiHealthChatbot() {
           </button>
         </div>
       </main>
-
     </div>
   );
 }

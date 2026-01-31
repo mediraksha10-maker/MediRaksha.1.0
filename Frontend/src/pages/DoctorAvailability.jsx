@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { Calendar, Clock, Hospital } from "lucide-react";
+import { Calendar, Clock, Hospital, ArrowLeft } from "lucide-react";
+import { Link } from "react-router";
 
 // Mock data (frontend-only)
 const initialDoctors = [
@@ -24,7 +23,7 @@ const initialDoctors = [
 export default function DoctorAvailability() {
   const [doctors, setDoctors] = useState(initialDoctors);
   const [newSlot, setNewSlot] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState<number | null>(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   const addAvailability = () => {
     if (!newSlot || selectedDoctor === null) return;
@@ -43,11 +42,14 @@ export default function DoctorAvailability() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-
+      
       <main className="grow max-w-7xl mx-auto px-4 py-8 space-y-10">
+        
         <h1 className="text-3xl font-bold text-base-content">
-          Doctor Availability
+          <Link to="/" className="text-gray-500 hover:text-gray-700">
+            <ArrowLeft size={24} />
+          </Link>
+          <span className="inline">Doctor Availability</span> 
         </h1>
 
         {/* Patient View */}
@@ -55,12 +57,15 @@ export default function DoctorAvailability() {
           <h2 className="text-xl font-semibold mb-4">Available Doctors</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {doctors.map((doc) => (
-              <div key={doc.id} className="card bg-base-100 shadow-lg">
+              <div key={doc.id} className="card bg-base-200 shadow-lg">
                 <div className="card-body">
+                  <h2>{doc.id}</h2>
                   <h3 className="card-title">{doc.name}</h3>
+
                   <p className="flex items-center gap-2 text-sm">
                     <Hospital size={16} /> {doc.hospital}
                   </p>
+
                   <p className="text-sm text-base-content/70">
                     {doc.specialization}
                   </p>
@@ -82,43 +87,9 @@ export default function DoctorAvailability() {
         </section>
 
         {/* Doctor View */}
-        <section className="bg-base-200 p-6 rounded-2xl shadow">
-          <h2 className="text-xl font-semibold mb-4">
-            Doctor: Add Availability
-          </h2>
-
-          <div className="flex flex-col md:flex-row gap-4">
-            <select
-              className="select select-bordered w-full md:w-1/3"
-              value={selectedDoctor ?? ""}
-              onChange={(e) => setSelectedDoctor(Number(e.target.value))}
-            >
-              <option value="" disabled>
-                Select Doctor
-              </option>
-              {doctors.map((doc) => (
-                <option key={doc.id} value={doc.id}>
-                  {doc.name}
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="text"
-              placeholder="e.g. 3:00 PM - 5:00 PM"
-              className="input input-bordered w-full md:w-1/3"
-              value={newSlot}
-              onChange={(e) => setNewSlot(e.target.value)}
-            />
-
-            <button onClick={addAvailability} className="btn btn-primary">
-              <Calendar size={18} /> Add Slot
-            </button>
-          </div>
-        </section>
+        
       </main>
 
-      <Footer />
     </div>
   );
 }
