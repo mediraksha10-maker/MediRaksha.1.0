@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.PROD 
-    ? "/api"
+    ? "https://mediraksha-1-0.onrender.com/api"
     : "http://localhost:3000/api",
   withCredentials: true,
 });
