@@ -89,7 +89,7 @@ const Auth = () => {
               <label className="form-control w-full mb-4">
                 <span className="label-text">Username</span>
                 <input
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="input input-bordered w-full"
@@ -149,7 +149,7 @@ const Auth = () => {
             <label className="form-control w-full mb-4">
               <span className="label-text">Username</span>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input input-bordered w-full"

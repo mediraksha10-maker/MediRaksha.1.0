@@ -73,7 +73,7 @@ const DoctorAuth = () => {
                   <span className="label-text">DoctorID</span>
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   value={doctorId}
                   onChange={(e) => setDoctorId(e.target.value)}
                   placeholder="DoctorID"
@@ -143,7 +143,7 @@ const DoctorAuth = () => {
                 <span className="label-text">DoctorID</span>
               </div>
               <input
-                type="email"
+                type="text"
                 value={doctorId}
                 onChange={(e) => setDoctorId(e.target.value)}
                 placeholder="DoctorID"

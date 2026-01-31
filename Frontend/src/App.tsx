@@ -14,6 +14,7 @@ import AppointmentCalendar from './components/Appointment';
 import Chatbot from './components/Chatbot';
 import DoctorAvailability from './pages/DoctorAvailability';
 import BedAvailability from './pages/BedAvailability';
+// import AddAvailability from './pages/AddAvailability';
 import { useState, useEffect } from "react";
 import { Toaster } from 'react-hot-toast';
 

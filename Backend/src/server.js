@@ -9,6 +9,7 @@ import { connectDB } from "./config/dataBase.js";
 // Routes
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import doctorRoutes from './routes/doctorRoutes.js'
 import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config();
@@ -51,6 +52,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/home", authMiddleware, userRoutes);
+app.use("/api/doctor",authMiddleware, doctorRoutes);
 
 /* ---------------- 404 HANDLER (API ONLY) ---------------- */
 
@@ -77,7 +79,6 @@ app.use((err, _req, res, _next) => {
 
 const startServer = async () => {
   try {
-    console.log(process.env.OPENAI_API_KEY);
     await connectDB();
     app.listen(PORT, () =>
       console.log(
