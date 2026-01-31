@@ -3,8 +3,9 @@ import Footer from "../components/Footer";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
-import { Hospital, ClipboardMinus, FileClock } from "lucide-react";
 
+import { Hospital, ClipboardMinus, FileClock, Brain, CalendarCheck2, Bed } from "lucide-react";
+// import toast from "react-hot-toast";
 // Placeholder data for demonstration
 const quickActions = [
   {
@@ -31,37 +32,48 @@ const quickActions = [
     style: "btn-accent",
     view: "/history",
   },
+  {
+    id: 4,
+    title: "AI chat",
+    icon: <Brain />,
+    description: "Ask the ai about the symtoms and get cured",
+    style: "btn-neutral",
+    view: "/ai",
+  },
+  {
+    id: 5,
+    title: "Book an Appointment",
+    icon: <CalendarCheck2 />,
+    description: "Book an appointment with specilist pratitioners.",
+    style: "btn-info",
+    view: "/appointment",
+  },
+  {
+    id: 6,
+    title: "Bed availability",
+    icon: <Bed />,
+    description: "See the bed available in the hospitals.",
+    style: "btn-success",
+    view: "/bedavailable",
+  },
 ];
 
 export default function Dashboard() {
-  const [name, setName] = useState("Sign up to access features");
-  const [user, setUser] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    gender: "",
-    age: "",
-  });
+  const [name, setName] = useState("Sign up to access features"); 
 
   const getUser = async () => {
     try {
       const res = await axiosInstance.get("/home");
       const data = res.data;
-
-      setUser(data);
-      setFormData({
-        name: data.name || "",
-        email: data.email || "",
-        gender: data.gender || "",
-        age: data.age || "",
-      });
       setName(data.name || "Sign up to access features");
     } catch (error) {
       console.error(error.response?.data?.msg || "Error fetching user details");
     }
   };
 
+
   useEffect(() => {
+
     getUser();
   }, []);
 
@@ -84,12 +96,51 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+        {/*banner */}
+        <div className="carousel w-full">
+          <div id="slide1" className="carousel-item relative w-full">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
+              className="w-full" />
+            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a href="#slide4" className="btn btn-circle">❮</a>
+              <a href="#slide2" className="btn btn-circle">❯</a>
+            </div>
+          </div>
+          <div id="slide2" className="carousel-item relative w-full">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
+              className="w-full" />
+            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a href="#slide1" className="btn btn-circle">❮</a>
+              <a href="#slide3" className="btn btn-circle">❯</a>
+            </div>
+          </div>
+          <div id="slide3" className="carousel-item relative w-full">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
+              className="w-full" />
+            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a href="#slide2" className="btn btn-circle">❮</a>
+              <a href="#slide4" className="btn btn-circle">❯</a>
+            </div>
+          </div>
+          <div id="slide4" className="carousel-item relative w-full">
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
+              className="w-full" />
+            <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <a href="#slide3" className="btn btn-circle">❮</a>
+              <a href="#slide1" className="btn btn-circle">❯</a>
+            </div>
+          </div>
+        </div>
 
 
         {/* Quick Actions Section */}
         <section>
           <h2 className="text-2xl font-semibold mb-6 text-base-content">
-            Quick Access & Primary Tasks
+            Quick Access to Services 
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {quickActions.map((action) => (

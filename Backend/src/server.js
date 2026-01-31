@@ -77,6 +77,7 @@ app.use((err, _req, res, _next) => {
 
 const startServer = async () => {
   try {
+    console.log(process.env.OPENAI_API_KEY);
     await connectDB();
     app.listen(PORT, () =>
       console.log(

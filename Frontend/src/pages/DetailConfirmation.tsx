@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axiosInstance from "../api/axios";
+import toast from "react-hot-toast";
 
 const UserDetails = () => {
   const [gender, setGender] = useState("");
@@ -7,20 +8,14 @@ const UserDetails = () => {
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem("token"); // ✅ Get saved token
 
       const response = await axiosInstance.patch(
         "/home/details", // 👈 Backend endpoint
-        { gender, age },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { gender, age }
       );
 
       console.log("Details saved:", response.data);
-      alert("Details submitted successfully!");
+      toast.success("Details submitted successfully!");
 
       // Redirect to homepage or dashboard
       window.location.href = "/";
@@ -60,7 +55,14 @@ const UserDetails = () => {
             <input
               type="number"
               value={age}
-              onChange={(e) => setAge(e.target.value)}
+              onChange={(e) => {
+                
+                if(e.target.value != null && e.target.value < 5) {
+                  toast.error("Invalid Age")
+                } else {
+                  setAge(e.target.value)
+                }
+              }}
               placeholder="Enter your age"
               className="input input-bordered w-full"
             />

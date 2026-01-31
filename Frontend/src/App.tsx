@@ -10,9 +10,12 @@ import HealthSummary from './components/HealthSummary';
 import Splash from './components/Splash';
 import DoctorAuth from './pages/DoctorAuth';
 import DoctorDash from './pages/DoctorDash';
+import AppointmentCalendar from './components/Appointment';
+import Chatbot from './components/Chatbot';
+import DoctorAvailability from './pages/DoctorAvailability';
+import BedAvailability from './pages/BedAvailability';
 import { useState, useEffect } from "react";
-import toast,{ Toaster } from 'react-hot-toast';
-import axiosInstance from './api/axios';
+import { Toaster } from 'react-hot-toast';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,19 +30,12 @@ export default function App() {
   if (isLoading) {
     return <Splash />;
   }
-  const handleCheack = async () => {
-    const data = await axiosInstance.get('/health');
-    if(data.status == "ok") {
-      toast.success("connected to backend successfully");
-    } else {
-      toast.error("backend not connected"); 
-    }
-  }
+  
+  
 
-  // 
 
   return (
-    <div onClick={handleCheack}>
+    <div>
       <Toaster />
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -51,6 +47,11 @@ export default function App() {
         <Route path='/about' element={<About />} />
         <Route path='/upload' element={<Upload />} />
         <Route path='/map' element={<Map />} />
+        
+        <Route path='/appointment' element={<AppointmentCalendar />} />
+        <Route path='/ai' element={<Chatbot />} />
+        <Route path='/doctoravailable' element={<DoctorAvailability />} />
+        <Route path='/bedavailable' element={<BedAvailability />} />
         <Route path='/history' element={<HealthSummary/>} />
       </Routes>
     </div>
