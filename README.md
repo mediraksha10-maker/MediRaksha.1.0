@@ -1,4 +1,4 @@
-Mediraksha — E-Medical Services Platform
+# **Mediraksha — E-Medical Services Platform**
 
 Mediraksha is a modern web application aimed at revolutionizing healthcare delivery by providing essential e-medical services. The platform enables patients to locate nearby hospitals, upload and manage medical documents, and allows doctors to review patient history and records online — all in one secure, user-friendly system.
 
